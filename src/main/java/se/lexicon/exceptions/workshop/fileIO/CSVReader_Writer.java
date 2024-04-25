@@ -1,10 +1,13 @@
 package se.lexicon.exceptions.workshop.fileIO;
 
+import se.lexicon.exceptions.workshop.data_access.NameService;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -16,19 +19,31 @@ public class CSVReader_Writer {
      * You should also close the Buffered reader in the finally block
      * @return List<String>of male firstnames
      */
-    public static List<String> getMaleFirstNames(){
+     public static List<String> getMaleFirstNames() {
+         List<String> names = null;
+         BufferedReader reader = null;
 
-        BufferedReader reader = null;
-        List <String> names = null;
+         try {
+             reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
+             names = reader.lines()
+                     .flatMap(line -> Stream.of(line.split(",")))
+                     .collect(Collectors.toList());
+         } catch (IOException e) {
+             // Handle the exception here, e.g. log the error or throw a custom exception
+             e.printStackTrace();
+         } finally {
+             if (reader != null) {
+                 try {
+                     reader.close();
+                 } catch (IOException e) {
+                     // Handle the exception here, e.g. log the error or throw a custom exception
+                     e.printStackTrace();
+                 }
+             }
+         }
 
-
-        	reader = Files.newBufferedReader(Paths.get("firstname_males.txt"));
-            names = reader.lines()
-                    .flatMap(line -> Stream.of(line.split(",")))
-                    .collect(Collectors.toList());
-
-         	return names;
-        }
+         return names;
+     }
 
 
 
@@ -36,14 +51,17 @@ public class CSVReader_Writer {
      * This method getFemaleFirstNames should make use of a try-catch with resources
      * @return
      */
-    public static List<String> getFemaleFirstNames(){
+    public static List<String> getFemaleFirstNames() {
+        List<String> names = new ArrayList<>();
 
-        List<String> names=null;
-
-            BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_female.txt"))
-                names = reader.lines()
-                        .flatMap(line -> Stream.of(line.split(",")))
-                        .collect(Collectors.toList());
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get("firstname_females.txt"))) {
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            // Handle the exception here, e.g. log the error or throw a custom exception
+            e.printStackTrace();
+        }
 
         return names;
     }
@@ -62,10 +80,10 @@ public class CSVReader_Writer {
         BufferedReader reader = null;
 
         try{
-                reader = Files.newBufferedReader(Paths.get("lastnames.txt"));
-                names = reader.lines()
-                .flatMap(line -> Stream.of(line.split(",")))
-                .collect(Collectors.toList());
+            reader = Files.newBufferedReader(Paths.get("lastnames.txt"));
+            names = reader.lines()
+                    .flatMap(line -> Stream.of(line.split(",")))
+                    .collect(Collectors.toList());
 
 
         }finally{
@@ -78,34 +96,53 @@ public class CSVReader_Writer {
 
 
     public static void saveLastNames(List <String> lastNames){
-
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-            for(String toWrite : lastNames){
-                writer.append(toWrite+",");
+            if (lastNames == null){
+                throw new IllegalArgumentException("Last name cannot be null");
             }
-            writer.flush();
-      }
+           try{
+               BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
+               for(String toWrite : lastNames){
+                   writer.append(toWrite+",");
+               }
+               writer.flush();
+           }catch (IOException ex){
+           ex.getStackTrace();
+    }
+
 
     public static void saveFemaleNames(List <String> femaleNames){
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-            for(String toWrite : femaleNames){
-                writer.append(toWrite+",");
+        if (femaleNames == null)
+            throw new IllegalArgumentException("Name cannot be null");
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
+            for (String toWrite : femaleNames) {
+                writer.append(toWrite + ",");
             }
             writer.flush();
+        } catch (IOException ex) {
+            ex.getStackTrace();
+        }
 
-    }
 
 
 
-    public static void saveMaleNames(List <String> maleNames){
-        BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-            for(String toWrite : maleNames){
-                writer.append(toWrite+",");
+
+    public static void saveMaleNames(List <String> maleNames) {
+                if (maleNames == null)
+                    throw new IllegalArgumentException("Name cannot be null");
+                try {
+
+                    BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
+                    for (String toWrite : maleNames) {
+                        writer.append(toWrite + ",");
+                    }
+                    writer.flush();
+                } catch (IOException ex) {
+                    ex.getStackTrace();
+                }
+
+
             }
-            writer.flush();
 
 
-    }
 
-
-}

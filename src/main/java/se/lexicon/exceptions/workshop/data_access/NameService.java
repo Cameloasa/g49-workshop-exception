@@ -15,7 +15,10 @@ public class NameService {
 	    private List<String>lastNames;
 	    private static Random random = new Random();
 
-	    //should be no nulls
+
+
+
+	//should be no nulls
 	    public NameService(List<String> maleFirstNames, List<String> femaleFirstNames, List<String> lastNames) {
 
 	        this.maleFirstNames = maleFirstNames;
@@ -59,10 +62,13 @@ public class NameService {
 	     * Here you need to check if List<String> femaleFirstNames already contains the name
 	     * If name already exists throw a new custom exception you will have to create called
 	     * DuplicateNameException.
-	     * @param name
+	     * @param
 	     */
-	    public void addFemaleFirstName(String name){
-	    	femaleFirstNames.add(name);
+	    public void addFemaleFirstName(String name) throws NameAlreadyExistsException{
+	    	if (femaleFirstNames.contains(name)){
+				throw new NameAlreadyExistsException("name already exists :" + name);
+			}
+			femaleFirstNames.add(name);
 	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 	    		
 	    }
@@ -73,8 +79,11 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name){
-	    	maleFirstNames.add(name);
+	    public void addMaleFirstName(String name) throws NameAlreadyExistsException{
+	    	if (maleFirstNames.contains(name)){
+				throw new NameAlreadyExistsException("Name already exists :" + name);
+			}
+			maleFirstNames.add(name);
 	        CSVReader_Writer.saveMaleNames(maleFirstNames);
 	    }
 
@@ -84,10 +93,19 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName){
-	    	lastNames.add(lastName);
+	    public void addLastName(String lastName) throws NameAlreadyExistsException{
+	    	if (lastNames.contains(lastName)){
+				throw new NameAlreadyExistsException("Last Name already exists :" + lastName);
+			}
+			lastNames.add(lastName);
 	        CSVReader_Writer.saveLastNames(lastNames);
 	    }
+
+		public static class NameAlreadyExistsException extends Exception {
+		public NameAlreadyExistsException(String message) {
+			super(message);
+		}
+	}
 
 
 	
