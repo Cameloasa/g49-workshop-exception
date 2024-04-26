@@ -95,22 +95,23 @@ public class CSVReader_Writer {
     }
 
 
-    public static void saveLastNames(List <String> lastNames){
-            if (lastNames == null){
-                throw new IllegalArgumentException("Last name cannot be null");
+    public static void saveLastNames(List <String> lastNames) {
+        if (lastNames == null) {
+            throw new IllegalArgumentException("Last name cannot be null");
+        }
+        try {
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
+            for (String toWrite : lastNames) {
+                writer.append(toWrite + ",");
             }
-           try{
-               BufferedWriter writer = Files.newBufferedWriter(Paths.get("lastnames.txt"));
-               for(String toWrite : lastNames){
-                   writer.append(toWrite+",");
-               }
-               writer.flush();
-           }catch (IOException ex){
-           ex.getStackTrace();
+            writer.flush();
+        } catch (IOException ex) {
+            ex.getStackTrace();
+        }
     }
 
 
-        public static void saveFemaleNames(List <String> femaleNames){
+          /* public static void saveFemaleNames(List <String> femaleNames){
 
             try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))) {
                 for (String toWrite : femaleNames) {
@@ -121,11 +122,12 @@ public class CSVReader_Writer {
                 System.out.println(e.toString());
             }
 
-        }
+       }*/
 
 
 
 
+        /*
         public static void saveMaleNames(List <String> maleNames){
             try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
                 for (String toWrite : maleNames) {
@@ -138,8 +140,33 @@ public class CSVReader_Writer {
 
 
         }
+        */
 
+
+    public static void saveFemaleNames(List<String> femaleFirstNames) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))) {
+            for (String toWrite : femaleFirstNames) {
+                writer.append(toWrite + ",");
             }
+            writer.flush();
+        }catch (IOException e){
+            System.out.println(e.toString());
+        }
+    }
+
+    public static void saveMaleNames(List<String> maleFirstNames) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
+            for (String toWrite : maleFirstNames) {
+                writer.append(toWrite + ",");
+            }
+            writer.flush();
+        }catch (IOException e){
+            System.out.println(e.toString());
+        }
+
+
+    }
+    }
 
 
 
