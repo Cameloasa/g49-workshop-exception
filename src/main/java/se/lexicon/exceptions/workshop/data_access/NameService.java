@@ -64,28 +64,30 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param
 	     */
-	    public void addFemaleFirstName(String name) throws NameAlreadyExistsException{
-	    	if (femaleFirstNames.contains(name)){
-				throw new NameAlreadyExistsException("name already exists :" + name);
+		public void addFemaleFirstName(String name) throws DuplicateNameException {
+			if (femaleFirstNames.contains(name)){
+				throw new DuplicateNameException("First name already exist");
+			}else {
+				femaleFirstNames.add(name);
+				CSVReader_Writer.saveFemaleNames(femaleFirstNames);
 			}
-			femaleFirstNames.add(name);
-	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
-	    		
-	    }
 
+		}
 	    /**
 	     * Here you need to check if List<String> maleFirstNames already contains the name
 	     * If name already exists throw a new custom exception you will have to create called
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name) throws NameAlreadyExistsException{
-	    	if (maleFirstNames.contains(name)){
-				throw new NameAlreadyExistsException("Name already exists :" + name);
+		public void addMaleFirstName(String name) throws DuplicateNameException {
+			if (maleFirstNames.contains(name)){
+				throw new DuplicateNameException("First name already exist");
+			}else {
+				maleFirstNames.add(name);
+				CSVReader_Writer.saveMaleNames(maleFirstNames);
 			}
-			maleFirstNames.add(name);
-	        CSVReader_Writer.saveMaleNames(maleFirstNames);
-	    }
+
+		}
 
 	    /**
 	     * Here you need to check if List<String> lastNames already contains the name
@@ -93,19 +95,17 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName) throws NameAlreadyExistsException{
-	    	if (lastNames.contains(lastName)){
-				throw new NameAlreadyExistsException("Last Name already exists :" + lastName);
+		public void addLastName(String lastName) throws DuplicateNameException {
+			if (lastNames.contains(lastName)){
+				throw new DuplicateNameException("Lastname already exist");
+			}else {
+				lastNames.add(lastName);
+				CSVReader_Writer.saveLastNames(lastNames);
 			}
-			lastNames.add(lastName);
-	        CSVReader_Writer.saveLastNames(lastNames);
-	    }
 
-		public static class NameAlreadyExistsException extends Exception {
-		public NameAlreadyExistsException(String message) {
-			super(message);
 		}
-	}
+
+
 
 
 	

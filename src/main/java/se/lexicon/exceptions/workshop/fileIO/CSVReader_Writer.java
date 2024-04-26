@@ -110,37 +110,34 @@ public class CSVReader_Writer {
     }
 
 
-    public static void saveFemaleNames(List <String> femaleNames){
-        if (femaleNames == null)
-            throw new IllegalArgumentException("Name cannot be null");
-        try {
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"));
-            for (String toWrite : femaleNames) {
-                writer.append(toWrite + ",");
+        public static void saveFemaleNames(List <String> femaleNames){
+
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_female.txt"))) {
+                for (String toWrite : femaleNames) {
+                    writer.append(toWrite + ",");
+                }
+                writer.flush();
+            }catch (IOException e){
+                System.out.println(e.toString());
             }
-            writer.flush();
-        } catch (IOException ex) {
-            ex.getStackTrace();
+
         }
 
 
 
 
-
-    public static void saveMaleNames(List <String> maleNames) {
-                if (maleNames == null)
-                    throw new IllegalArgumentException("Name cannot be null");
-                try {
-
-                    BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"));
-                    for (String toWrite : maleNames) {
-                        writer.append(toWrite + ",");
-                    }
-                    writer.flush();
-                } catch (IOException ex) {
-                    ex.getStackTrace();
+        public static void saveMaleNames(List <String> maleNames){
+            try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("firstname_males.txt"))) {
+                for (String toWrite : maleNames) {
+                    writer.append(toWrite + ",");
                 }
+                writer.flush();
+            }catch (IOException e){
+                System.out.println(e.toString());
+            }
 
+
+        }
 
             }
 
