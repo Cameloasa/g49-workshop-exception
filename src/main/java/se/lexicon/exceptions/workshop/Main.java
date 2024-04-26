@@ -34,7 +34,7 @@ public class Main {
 
         // Test addFemaleFirstName method
         try {
-            nameService.addFemaleFirstName("Alice");
+            nameService.addFemaleFirstName("Layla");
             System.out.println("Successfully added new female first name.");
         } catch (DuplicateNameException e) {
             System.out.println("Failed to add new female first name: " + e.getMessage());
@@ -42,7 +42,7 @@ public class Main {
 
         // Test addMaleFirstName method
         try {
-            nameService.addMaleFirstName("David");
+            nameService.addMaleFirstName("Sebastian");
             System.out.println("Successfully added new male first name.");
         } catch (DuplicateNameException e) {
             System.out.println("Failed to add new male first name: " + e.getMessage());
@@ -50,7 +50,7 @@ public class Main {
 
         // Test addLastName method
         try {
-            nameService.addLastName("Brown");
+            nameService.addLastName("Kirby");
             System.out.println("Successfully added new last name.");
         } catch (DuplicateNameException e) {
             System.out.println("Failed to add new last name: " + e.getMessage());
